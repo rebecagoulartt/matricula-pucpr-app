@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Matricula - PUCPR</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        h1 { color: #333; }
+        .status { padding: 10px; border-radius: 6px; margin-bottom: 20px; }
+        .status.ok { background: #d4edda; color: #155724; }
+        .status.erro { background: #f8d7da; color: #721c24; }
+        table { border-collapse: collapse; width: 100%; background: #fff; }
+        th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+        th { background: #007bff; color: #fff; }
+        form { margin-top: 20px; background: #fff; padding: 15px; border-radius: 6px; }
+        input { padding: 6px; margin-right: 10px; }
+        button { padding: 6px 16px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Sistema de Matricula Online - PUCPR</h1>
+
+    {% if db_status == "OK" %}
+        <div class="status ok">Conexao com o banco de dados: OK</div>
+    {% else %}
+        <div class="status erro">{{ db_status }}</div>
+    {% endif %}
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Curso</th>
+            <th>Status</th>
+            <th>Data</th>
+        </tr>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <form method="POST" action="/matricula">
+        <h3>Nova matricula</h3>
+        <input type="text" name="nome" placeholder="Nome do estudante" required>
+        <input type="text" name="curso" placeholder="Curso" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>
